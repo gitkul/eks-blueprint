@@ -119,35 +119,8 @@ variable "cluster_endpoint_public_access_cidrs" {
   default     = ["0.0.0.0/0"]
 }
 
-#-------------------------------
-# EKS Cluster ENCRYPTION
-#-------------------------------
-variable "cluster_kms_key_arn" {
-  type        = string
-  default     = null
-  description = "A valid EKS Cluster KMS Key ARN to encrypt Kubernetes secrets"
-}
 
-variable "cluster_kms_key_deletion_window_in_days" {
-  type        = number
-  default     = 30
-  description = "The waiting period, specified in number of days (7 - 30). After the waiting period ends, AWS KMS deletes the KMS key"
-}
 
-variable "cluster_kms_key_additional_admin_arns" {
-  type = list(string)
-  description = "A list of additional IAM ARNs that should have FULL access (kms:*) in the KMS key policy."
-  default = []
-}
-
-variable "cluster_encryption_config" {
-  description = "Configuration block with encryption configuration for the cluster"
-  type = list(object({
-    provider_key_arn = string
-    resources        = list(string)
-  }))
-  default = []
-}
 #-------------------------------
 # EKS Cluster Kubernetes Network Config
 #-------------------------------
@@ -285,14 +258,6 @@ variable "worker_additional_security_group_ids" {
   default     = []
 }
 
-#-------------------------------
-# Fargate
-#-------------------------------
-variable "fargate_profiles" {
-  description = "Fargate profile configuration"
-  type        = any
-  default     = {}
-}
 
 #-------------------------------
 # aws-auth Config Map
@@ -329,47 +294,5 @@ variable "aws_auth_additional_labels" {
   type        = map(string)
 }
 
-#-------------------------------
-# Amazon Managed Prometheus
-#-------------------------------
-variable "enable_amazon_prometheus" {
-  type        = bool
-  default     = false
-  description = "Enable AWS Managed Prometheus service"
-}
 
-variable "amazon_prometheus_workspace_alias" {
-  type        = string
-  default     = null
-  description = "AWS Managed Prometheus WorkSpace Name"
-}
 
-#-------------------------------
-# Amazon EMR on EKS
-#-------------------------------
-variable "enable_emr_on_eks" {
-  type        = bool
-  default     = false
-  description = "Enable EMR on EKS"
-}
-
-variable "emr_on_eks_teams" {
-  description = "EMR on EKS Teams config"
-  type        = any
-  default     = {}
-}
-
-#-------------------------------
-# TEAMS (Soft Multi-tenancy)
-#-------------------------------
-variable "application_teams" {
-  description = "Map of maps of Application Teams to create"
-  type        = any
-  default     = {}
-}
-
-variable "platform_teams" {
-  description = "Map of maps of platform teams to create"
-  type        = any
-  default     = {}
-}
